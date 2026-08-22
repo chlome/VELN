@@ -181,7 +181,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <!-- BAG 1 -->
       <article class="card" data-type="bags">
         <div class="photo">
-          <img src="toto.jpg" alt="City Shoulder Bag (black)" class="product">
+          <img src="toto.jpg" alt="City Shoulder Bag (black)" class="product bag-img">
           <span class="detail">詳細を見る &rarr;</span>
           <button class="add-cart" type="button">カートに入れる</button>
         </div>
@@ -194,7 +194,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <!-- BAG 2 -->
       <article class="card" data-type="bags">
         <div class="photo">
-          <img src="toto.jpg" alt="City Shoulder Bag (navy)" class="product">
+          <img src="toto.jpg" alt="City Shoulder Bag (navy)" class="product bag-img">
           <span class="detail">詳細を見る &rarr;</span>
           <button class="add-cart" type="button">カートに入れる</button>
         </div>
@@ -394,6 +394,27 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Image Fallback Handler for BAGS
+  const candidatePaths = [
+    'toto.jpg',
+    './toto.jpg',
+    'toto.JPG',
+    'toto.png',
+    'toto.jpeg',
+    'images/toto.jpg',
+    'images/toto.png'
+  ];
+
+  document.querySelectorAll('.bag-img').forEach(img => {
+    let attempts = 0;
+    img.onerror = () => {
+      attempts++;
+      if (attempts < candidatePaths.length) {
+        img.src = candidatePaths[attempts];
+      }
+    };
+  });
+
   // Mobile Menu Handler
   const menuToggle = document.getElementById('menuToggle');
   const sideMenu = document.getElementById('sideMenu');

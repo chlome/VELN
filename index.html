@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VELN — SHOP</title>
 <style>
+/* ==========================================
+   RESET & BASE
+   ========================================== */
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
@@ -16,13 +19,16 @@ body{
 a{text-decoration:none;color:inherit}
 button{font:inherit}
 
+/* ==========================================
+   LAYOUT
+   ========================================== */
 .shell{
   min-height:100vh;
   display:grid;
   grid-template-columns:155px 1fr;
 }
 
-/* 左側：固定ナビ */
+/* サイドバー */
 .side{
   position:fixed;
   inset:0 auto 0 0;
@@ -48,7 +54,6 @@ button{font:inherit}
   margin:0 0 18px;
 }
 .menu a:hover{opacity:.55}
-.menu .plus{margin-left:3px}
 .side-foot{
   position:absolute;
   left:28px;
@@ -72,7 +77,7 @@ button{font:inherit}
   font-size:8px;
 }
 
-/* メイン */
+/* メインコンテンツ */
 .main{
   margin-left:155px;
   padding:0 38px 80px;
@@ -111,9 +116,9 @@ button{font:inherit}
   font-size:10px;
 }
 
-.line{
-  border-top:1px solid #191919;
-}
+.line{border-top:1px solid #191919}
+
+/* フィルターバー */
 .filterbar{
   display:flex;
   gap:27px;
@@ -159,6 +164,34 @@ button{font:inherit}
   transition:transform .35s ease;
 }
 .card:hover .product{transform:scale(1.045)}
+
+/* 商品ホバーアクション */
+.add-cart{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  background:#fff;
+  color:#000;
+  border:0;
+  padding:7px 9px;
+  font-size:8px;
+  cursor:pointer;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.card:hover .add-cart{opacity:1}
+.add-cart:hover{opacity:.8!important}
+
+.detail{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  opacity:0;
+  transition:opacity .2s ease;
+  font-size:9px;
+}
+.card:hover .detail{opacity:1}
+
 .info{
   padding-top:15px;
   min-height:60px;
@@ -174,33 +207,6 @@ button{font:inherit}
 }
 .sold{color:#f05d5d;margin-left:10px}
 
-/* ボタン・ラベルのホバー表示修正 */
-.add-cart{
-  position:absolute;
-  left:12px;
-  bottom:12px;
-  background:#fff;
-  color:#000;
-  border:0;
-  padding:7px 9px;
-  font-size:8px;
-  cursor:pointer;
-  opacity:0;
-  transition:.2s;
-}
-.card:hover .add-cart{opacity:1}
-.add-cart:hover{opacity:.8!important}
-
-.detail{
-  position:absolute;
-  right:12px;
-  bottom:12px;
-  opacity:0;
-  transition:.2s;
-  font-size:9px;
-}
-.card:hover .detail{opacity:1}
-
 footer{
   margin-top:100px;
   padding-top:20px;
@@ -211,7 +217,9 @@ footer{
   font-size:9px;
 }
 
-/* カート・コンタクト UI */
+/* ==========================================
+   MODAL & CART UI
+   ========================================== */
 .cart-panel{
   position:fixed;
   top:0; right:-430px;
@@ -274,6 +282,7 @@ footer{
   padding:11px 18px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer;
 }
 .contact-actions .send{background:#fff;color:#000;border-color:#fff}
+
 .toast{
   position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
   background:#fff;color:#000;padding:11px 18px;font-size:10px;
@@ -281,7 +290,9 @@ footer{
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* レスポンシブ */
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
 @media(max-width:1100px){
   .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -314,166 +325,206 @@ footer{
 </style>
 </head>
 <body>
+
 <div class="shell">
+  <!-- SIDE NAVIGATION -->
+  <aside class="side">
+    <a class="brand" href="#">VELN</a>
+    <nav class="menu">
+      <a href="#" data-filter="all">Top</a>
+      <a href="#" data-filter="all">Item +</a>
+      <a href="#" data-filter="all">Custom</a>
+      <a href="#" data-filter="all">Style</a>
+      <a href="#" data-filter="all">VELN Stories +</a>
+      <a href="#" data-filter="all">Shop List</a>
+      <a href="#" id="sideCartLink">Shopping Bag <span id="sideCartCount">(0)</span></a>
+    </nav>
 
-<aside class="side">
-  <a class="brand" href="#">VELN</a>
-
-  <nav class="menu">
-    <a href="#" data-filter="all">Top</a>
-    <a href="#" data-filter="all">Item ＋</a>
-    <a href="#" data-filter="all">Custom</a>
-    <a href="#" data-filter="all">Style</a>
-    <a href="#" data-filter="all">VELN Stories ＋</a>
-    <a href="#" data-filter="all">Shop List</a>
-    <a href="#" id="sideCartLink">Shopping Bag <span id="sideCartCount">(0)</span></a>
-  </nav>
-
-  <div class="side-foot">
-    <a href="#">News / Concept</a>
-    <a href="#" id="contactLink">My Page / Contact</a>
-    <div class="icons"><span>ig</span><span>▶</span></div>
-  </div>
-</aside>
-
-<main class="main">
-  <div class="top">
-    <span id="searchBtn">SEARCH</span>
-    <span id="cartBtn">SHOPPING BAG <span id="cartCount">(0)</span></span>
-  </div>
-
-  <section class="hero">
-    <h1>NEW<br>ITEMS</h1>
-    <div class="hero-copy">
-      PICK UP PLAYGROUND<br>
-      DAILY BASKETBALL UNIFORM.<br>
-      STREET, COURT AND CITY.
+    <div class="side-foot">
+      <a href="#">News / Concept</a>
+      <a href="#" id="contactLink">My Page / Contact</a>
+      <div class="icons"><span>ig</span><span>▶</span></div>
     </div>
-  </section>
+  </aside>
 
-  <div class="line"></div>
+  <!-- MAIN AREA -->
+  <main class="main">
+    <div class="top">
+      <span id="searchBtn">SEARCH</span>
+      <span id="cartBtn">SHOPPING BAG <span id="cartCount">(0)</span></span>
+    </div>
 
-  <div class="filterbar">
-    <button class="active" data-category="all">ALL</button>
-    <button data-category="tops">TOPS</button>
-    <button data-category="bottoms">BOTTOMS</button>
-    <button data-category="bags">BAGS</button>
-  </div>
-
-  <section class="grid">
-
-    <article class="card" data-type="bags">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 270">
-          <path d="M65 84Q150-35 235 84" fill="none" stroke="#ddd" stroke-width="7" stroke-linecap="round"/>
-          <rect x="54" y="70" width="192" height="124" rx="22" fill="#151515" stroke="#444" stroke-width="3"/>
-          <rect x="114" y="109" width="72" height="26" rx="4" fill="#f4f4f4"/>
-          <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#111">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+    <section class="hero">
+      <h1>NEW<br>ITEMS</h1>
+      <div class="hero-copy">
+        PICK UP PLAYGROUND<br>
+        DAILY BASKETBALL UNIFORM.<br>
+        STREET, COURT AND CITY.
       </div>
-      <div class="info"><div class="name">City Shoulder Bag (black)</div><div class="price">¥8,800</div></div>
-    </article>
+    </section>
 
-    <article class="card" data-type="bags">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 270">
-          <path d="M65 84Q150-35 235 84" fill="none" stroke="#536170" stroke-width="7" stroke-linecap="round"/>
-          <rect x="54" y="70" width="192" height="124" rx="22" fill="#172738" stroke="#43505d" stroke-width="3"/>
-          <rect x="114" y="109" width="72" height="26" rx="4" fill="#ddd"/>
-          <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#172738">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">City Shoulder Bag (navy)</div><div class="price">¥8,800</div></div>
-    </article>
+    <div class="line"></div>
 
-    <article class="card" data-type="bottoms">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 270">
-          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#171717" stroke="#555" stroke-width="3"/>
-          <path d="M69 65Q150 83 231 65" fill="none" stroke="#aaa" stroke-width="3"/>
-          <text x="192" y="170" font-size="8" fill="#ddd">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Nylon City Shorts (black)</div><div class="price">¥12,100</div></div>
-    </article>
+    <div class="filterbar">
+      <button class="active" data-category="all">ALL</button>
+      <button data-category="tops">TOPS</button>
+      <button data-category="bottoms">BOTTOMS</button>
+      <button data-category="bags">BAGS</button>
+    </div>
 
-    <article class="card" data-type="bottoms">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 270">
-          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#c9ff24" stroke="#dfff75" stroke-width="3"/>
-          <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
-          <text x="192" y="170" font-size="8" fill="#111">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Nylon City Shorts (light green)</div><div class="price">¥12,100 <span class="sold">SOLD OUT</span></div></div>
-    </article>
+    <!-- PRODUCTS GRID -->
+    <section class="grid">
+      <!-- BAG 1 -->
+      <article class="card" data-type="bags">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 270">
+            <path d="M65 84Q150-35 235 84" fill="none" stroke="#ddd" stroke-width="7" stroke-linecap="round"/>
+            <rect x="54" y="70" width="192" height="124" rx="22" fill="#151515" stroke="#444" stroke-width="3"/>
+            <rect x="114" y="109" width="72" height="26" rx="4" fill="#f4f4f4"/>
+            <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#111">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">City Shoulder Bag (black)</div>
+          <div class="price">&yen;8,800</div>
+        </div>
+      </article>
 
-    <article class="card" data-type="bottoms">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 270">
-          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#079b8f" stroke="#24c5b8" stroke-width="3"/>
-          <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
-          <text x="192" y="170" font-size="8" fill="#eaffff">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Nylon City Shorts (turquoise)</div><div class="price">¥12,100</div></div>
-    </article>
+      <!-- BAG 2 -->
+      <article class="card" data-type="bags">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 270">
+            <path d="M65 84Q150-35 235 84" fill="none" stroke="#536170" stroke-width="7" stroke-linecap="round"/>
+            <rect x="54" y="70" width="192" height="124" rx="22" fill="#172738" stroke="#43505d" stroke-width="3"/>
+            <rect x="114" y="109" width="72" height="26" rx="4" fill="#ddd"/>
+            <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#172738">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">City Shoulder Bag (navy)</div>
+          <div class="price">&yen;8,800</div>
+        </div>
+      </article>
 
-    <article class="card" data-type="tops">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 300">
-          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#242424" stroke="#555" stroke-width="3"/>
-          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ffd22f">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Tee - PICK UP PLAYGROUND- (black/yellow)</div><div class="price">¥7,700</div></div>
-    </article>
+      <!-- BOTTOM 1 -->
+      <article class="card" data-type="bottoms">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 270">
+            <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#171717" stroke="#555" stroke-width="3"/>
+            <path d="M69 65Q150 83 231 65" fill="none" stroke="#aaa" stroke-width="3"/>
+            <text x="192" y="170" font-size="8" fill="#ddd">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Nylon City Shorts (black)</div>
+          <div class="price">&yen;12,100</div>
+        </div>
+      </article>
 
-    <article class="card" data-type="tops">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 300">
-          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#3159d5" stroke="#6684ee" stroke-width="3"/>
-          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ff7a22">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Tee -PICK UP PLAYGROUND- (royal blue/orange)</div><div class="price">¥7,700</div></div>
-    </article>
+      <!-- BOTTOM 2 (SOLD OUT) -->
+      <article class="card" data-type="bottoms">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 270">
+            <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#c9ff24" stroke="#dfff75" stroke-width="3"/>
+            <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
+            <text x="192" y="170" font-size="8" fill="#111">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Nylon City Shorts (light green)</div>
+          <div class="price">&yen;12,100 <span class="sold">SOLD OUT</span></div>
+        </div>
+      </article>
 
-    <article class="card" data-type="tops">
-      <div class="photo">
-        <svg class="product" viewBox="0 0 300 300">
-          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#f4f4f4" stroke="#aaa" stroke-width="3"/>
-          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#151515">VELN</text>
-        </svg>
-        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
-      </div>
-      <div class="info"><div class="name">Logo Tee -PICK UP PLAYGROUND- (white)</div><div class="price">¥7,700</div></div>
-    </article>
+      <!-- BOTTOM 3 -->
+      <article class="card" data-type="bottoms">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 270">
+            <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#079b8f" stroke="#24c5b8" stroke-width="3"/>
+            <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
+            <text x="192" y="170" font-size="8" fill="#eaffff">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Nylon City Shorts (turquoise)</div>
+          <div class="price">&yen;12,100</div>
+        </div>
+      </article>
 
-  </section>
+      <!-- TOP 1 -->
+      <article class="card" data-type="tops">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 300">
+            <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#242424" stroke="#555" stroke-width="3"/>
+            <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ffd22f">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Tee - PICK UP PLAYGROUND- (black/yellow)</div>
+          <div class="price">&yen;7,700</div>
+        </div>
+      </article>
 
-  <footer><span>VELN</span><span>© 2026</span></footer>
-</main>
+      <!-- TOP 2 -->
+      <article class="card" data-type="tops">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 300">
+            <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#3159d5" stroke="#6684ee" stroke-width="3"/>
+            <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ff7a22">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Tee -PICK UP PLAYGROUND- (royal blue/orange)</div>
+          <div class="price">&yen;7,700</div>
+        </div>
+      </article>
+
+      <!-- TOP 3 -->
+      <article class="card" data-type="tops">
+        <div class="photo">
+          <svg class="product" viewBox="0 0 300 300">
+            <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#f4f4f4" stroke="#aaa" stroke-width="3"/>
+            <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#151515">VELN</text>
+          </svg>
+          <span class="detail">DETAIL &rarr;</span>
+          <button class="add-cart" type="button">ADD TO CART</button>
+        </div>
+        <div class="info">
+          <div class="name">Logo Tee -PICK UP PLAYGROUND- (white)</div>
+          <div class="price">&yen;7,700</div>
+        </div>
+      </article>
+    </section>
+
+    <footer><span>VELN</span><span>&copy; 2026</span></footer>
+  </main>
 </div>
 
-<!-- CART PANEL -->
+<!-- SHOPPING BAG PANEL -->
 <aside class="cart-panel" id="cartPanel">
   <div class="cart-head">
     <strong>SHOPPING BAG</strong>
-    <button class="close-cart" id="closeCart">×</button>
+    <button class="close-cart" id="closeCart">&times;</button>
   </div>
   <div class="cart-items" id="cartItems">
     <div class="cart-empty">Your shopping bag is empty.</div>
   </div>
   <div class="cart-total">
-    <div class="cart-total-row"><span>TOTAL</span><strong id="cartTotal">¥0</strong></div>
+    <div class="cart-total-row"><span>TOTAL</span><strong id="cartTotal">&yen;0</strong></div>
     <button class="checkout" id="checkoutBtn">CHECKOUT</button>
   </div>
 </aside>
@@ -483,11 +534,11 @@ footer{
   <div class="contact-box">
     <h2>CONTACT</h2>
     <label>NAME</label>
-    <input id="contactName" type="text" placeholder="お名前">
+    <input id="contactName" type="text" placeholder="&#12106;&#21517;&#21069;">
     <label>EMAIL</label>
-    <input id="contactEmail" type="email" placeholder="メールアドレス">
+    <input id="contactEmail" type="email" placeholder="&#20081;&#12540;&#12525;&#12450;&#12489;&#12525;&#12489;">
     <label>MESSAGE</label>
-    <textarea id="contactMessage" placeholder="お問い合わせ内容"></textarea>
+    <textarea id="contactMessage" placeholder="&#12362;&#21839;&#12356;&#21512;&#12431;&#12379;&#20869;&#23481;"></textarea>
     <div class="contact-actions">
       <button id="closeContact">CLOSE</button>
       <button class="send" id="sendContact">SEND</button>
@@ -497,132 +548,154 @@ footer{
 
 <div class="toast" id="toast"></div>
 
+<!-- JAVASCRIPT -->
 <script>
-// カテゴリフィルター
-const buttons = document.querySelectorAll('.filterbar button');
-const cards = document.querySelectorAll('.card');
+document.addEventListener('DOMContentLoaded', () => {
+  // --- 1. カテゴリフィルタ機能 ---
+  const buttons = document.querySelectorAll('.filterbar button');
+  const cards = document.querySelectorAll('.card');
 
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const cat = btn.dataset.category;
-    buttons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    cards.forEach(card => {
-      card.style.display = (cat === 'all' || card.dataset.type === cat) ? 'block' : 'none';
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.category;
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cards.forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.type === cat) ? 'block' : 'none';
+      });
     });
   });
-});
 
-// カート & モーダル機能
-const cartPanel = document.getElementById('cartPanel');
-const cartItems = document.getElementById('cartItems');
-const cartCount = document.getElementById('cartCount');
-const sideCartCount = document.getElementById('sideCartCount');
-const cartTotal = document.getElementById('cartTotal');
-let cart = [];
+  // --- 2. カート機能 & トースト表示 ---
+  let cart = [];
+  const cartPanel = document.getElementById('cartPanel');
+  const cartItems = document.getElementById('cartItems');
+  const cartCount = document.getElementById('cartCount');
+  const sideCartCount = document.getElementById('sideCartCount');
+  const cartTotal = document.getElementById('cartTotal');
+  const toast = document.getElementById('toast');
 
-function yen(n){ return '¥' + n.toLocaleString('ja-JP'); }
+  const yen = n => '¥' + n.toLocaleString('ja-JP');
 
-function renderCart(){
-  if (cartCount) cartCount.textContent = '(' + cart.length + ')';
-  if (sideCartCount) sideCartCount.textContent = '(' + cart.length + ')';
+  const showToast = text => {
+    if (!toast) return;
+    toast.textContent = text;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  };
 
-  if(!cart.length){
-    cartItems.innerHTML = '<div class="cart-empty">Your shopping bag is empty.</div>';
-    cartTotal.textContent = '¥0';
-    return;
-  }
+  const renderCart = () => {
+    if (cartCount) cartCount.textContent = `(${cart.length})`;
+    if (sideCartCount) sideCartCount.textContent = `(${cart.length})`;
 
-  cartItems.innerHTML = cart.map((item,i)=>`
-    <div style="display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid #181818;font-size:10px">
-      <span>${item.name}</span>
-      <span>${yen(item.price)} <button onclick="removeCart(${i})" style="background:none;border:0;color:#777;cursor:pointer">×</button></span>
-    </div>
-  `).join('');
-
-  cartTotal.textContent = yen(cart.reduce((sum,item)=>sum+item.price,0));
-}
-
-function removeCart(i){
-  cart.splice(i,1);
-  renderCart();
-}
-
-function openCart(){
-  cartPanel.classList.add('open');
-}
-function closeCart(){
-  cartPanel.classList.remove('open');
-}
-
-function showToast(text){
-  const t = document.getElementById('toast');
-  t.textContent = text;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1800);
-}
-
-// イベントバインド
-const cartBtn = document.getElementById('cartBtn');
-if (cartBtn) cartBtn.onclick = openCart;
-
-const sideCartLink = document.getElementById('sideCartLink');
-if (sideCartLink) sideCartLink.onclick = e => { e.preventDefault(); openCart(); };
-
-const closeCartBtn = document.getElementById('closeCart');
-if (closeCartBtn) closeCartBtn.onclick = closeCart;
-
-document.querySelectorAll('.add-cart').forEach(btn=>{
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const card = btn.closest('.card');
-    const name = card.querySelector('.name').textContent.trim();
-    const priceText = card.querySelector('.price').textContent.replace(/SOLD OUT/g,'').replace(/[¥,]/g,'').trim();
-    const price = parseInt(priceText,10) || 0;
-    if(card.querySelector('.sold')){
-      showToast('この商品はSOLD OUTです');
+    if (!cart.length) {
+      if (cartItems) cartItems.innerHTML = '<div class="cart-empty">Your shopping bag is empty.</div>';
+      if (cartTotal) cartTotal.textContent = '¥0';
       return;
     }
-    cart.push({name,price});
-    renderCart();
-    showToast('カートに追加しました');
+
+    if (cartItems) {
+      cartItems.innerHTML = cart.map((item, i) => `
+        <div style="display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid #181818;font-size:10px">
+          <span>${item.name}</span>
+          <span>${yen(item.price)} <button class="remove-item" data-index="${i}" style="background:none;border:0;color:#777;cursor:pointer">&times;</button></span>
+        </div>
+      `).join('');
+    }
+
+    if (cartTotal) {
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotal.textContent = yen(total);
+    }
+  };
+
+  // カート内削除ボタンのイベントハンドラ
+  cartItems?.addEventListener('click', e => {
+    if (e.target.classList.contains('remove-item')) {
+      const index = parseInt(e.target.dataset.index, 10);
+      cart.splice(index, 1);
+      renderCart();
+    }
+  });
+
+  // カートパネル開閉
+  const openCart = () => cartPanel?.classList.add('open');
+  const closeCart = () => cartPanel?.classList.remove('open');
+
+  document.getElementById('cartBtn')?.addEventListener('click', openCart);
+  document.getElementById('sideCartLink')?.addEventListener('click', e => {
+    e.preventDefault();
+    openCart();
+  });
+  document.getElementById('closeCart')?.addEventListener('click', closeCart);
+
+  // 商品追加処理
+  document.querySelectorAll('.add-cart').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const card = btn.closest('.card');
+      if (!card) return;
+
+      if (card.querySelector('.sold')) {
+        showToast('この商品はSOLD OUTです');
+        return;
+      }
+
+      const name = card.querySelector('.name')?.textContent.trim() || '';
+      const priceText = card.querySelector('.price')?.textContent.replace(/SOLD OUT/g, '').replace(/[¥,]/g, '').trim() || '0';
+      const price = parseInt(priceText, 10) || 0;
+
+      cart.push({ name, price });
+      renderCart();
+      showToast('カートに追加しました');
+    });
+  });
+
+  // チェックアウト処理
+  document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+    if (!cart.length) {
+      showToast('カートが空です');
+      return;
+    }
+    showToast('チェックアウト画面へ遷移します');
+  });
+
+  // --- 3. お問い合わせモーダル機能 ---
+  const contactModal = document.getElementById('contactModal');
+
+  document.getElementById('contactLink')?.addEventListener('click', e => {
+    e.preventDefault();
+    contactModal?.classList.add('open');
+  });
+
+  document.getElementById('closeContact')?.addEventListener('click', () => {
+    contactModal?.classList.remove('open');
+  });
+
+  contactModal?.addEventListener('click', e => {
+    if (e.target === contactModal) contactModal.classList.remove('open');
+  });
+
+  document.getElementById('sendContact')?.addEventListener('click', () => {
+    const name = document.getElementById('contactName')?.value.trim();
+    const email = document.getElementById('contactEmail')?.value.trim();
+    const message = document.getElementById('contactMessage')?.value.trim();
+
+    if (!name || !email || !message) {
+      showToast('すべての項目を入力してください');
+      return;
+    }
+
+    contactModal?.classList.remove('open');
+    showToast('お問い合わせを受け付けました');
+
+    // フォームリセット
+    document.getElementById('contactName').value = '';
+    document.getElementById('contactEmail').value = '';
+    document.getElementById('contactMessage').value = '';
   });
 });
-
-const checkoutBtn = document.getElementById('checkoutBtn');
-if (checkoutBtn) checkoutBtn.onclick = () => {
-  if(!cart.length){ showToast('カートが空です'); return; }
-  showToast('チェックアウト画面をここに接続できます');
-};
-
-const contactModal = document.getElementById('contactModal');
-const contactLink = document.getElementById('contactLink');
-if (contactLink) contactLink.onclick = e => {
-  e.preventDefault();
-  contactModal.classList.add('open');
-};
-
-const closeContactBtn = document.getElementById('closeContact');
-if (closeContactBtn) closeContactBtn.onclick = () => contactModal.classList.remove('open');
-
-if (contactModal) {
-  contactModal.addEventListener('click', e => {
-    if(e.target === contactModal) contactModal.classList.remove('open');
-  });
-}
-
-const sendContactBtn = document.getElementById('sendContact');
-if (sendContactBtn) sendContactBtn.onclick = () => {
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const message = document.getElementById('contactMessage').value.trim();
-  if(!name || !email || !message){
-    showToast('すべて入力してください');
-    return;
-  }
-  contactModal.classList.remove('open');
-  showToast('お問い合わせを受け付けました');
-};
 </script>
+
 </body>
 </html>

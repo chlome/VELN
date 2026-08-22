@@ -22,7 +22,7 @@ button{font:inherit}
   grid-template-columns:155px 1fr;
 }
 
-/* 左側：元サイトのように細く固定 */
+/* 左側：固定ナビ */
 .side{
   position:fixed;
   inset:0 auto 0 0;
@@ -130,7 +130,7 @@ button{font:inherit}
 }
 .filterbar button.active,.filterbar button:hover{color:#fff}
 
-/* 商品はスクショのような余白多め4列 */
+/* 商品グリッド */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -173,7 +173,25 @@ button{font:inherit}
   color:#aaa;
 }
 .sold{color:#f05d5d;margin-left:10px}
-.add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:.2s}.card:hover .add-cart{opacity:1}.add-cart:hover{opacity:.8!important}.detail{
+
+/* ボタン・ラベルのホバー表示修正 */
+.add-cart{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  background:#fff;
+  color:#000;
+  border:0;
+  padding:7px 9px;
+  font-size:8px;
+  cursor:pointer;
+  opacity:0;
+  transition:.2s;
+}
+.card:hover .add-cart{opacity:1}
+.add-cart:hover{opacity:.8!important}
+
+.detail{
   position:absolute;
   right:12px;
   bottom:12px;
@@ -181,7 +199,7 @@ button{font:inherit}
   transition:.2s;
   font-size:9px;
 }
-.card:hover .add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:.2s}.card:hover .add-cart{opacity:1}.add-cart:hover{opacity:.8!important}.detail{opacity:1}
+.card:hover .detail{opacity:1}
 
 footer{
   margin-top:100px;
@@ -193,39 +211,7 @@ footer{
   font-size:9px;
 }
 
-/* 画面幅 */
-@media(max-width:1100px){
-  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:760px){
-  .shell{display:block}
-  .side{
-    position:sticky;
-    top:0;
-    width:100%;
-    height:58px;
-    padding:0 16px;
-    display:flex;
-    align-items:center;
-    border-bottom:1px solid #191919;
-  }
-  .brand{margin:0}
-  .menu{margin-left:auto;display:flex;gap:15px}
-  .menu a{margin:0;font-size:10px}
-  .menu a:nth-child(n+4){display:none}
-  .side-foot{display:none}
-  .main{margin:0;padding:0 14px 50px}
-  .top{height:50px}
-  .hero{height:210px;display:block;padding-top:60px}
-  .hero h1{font-size:50px;letter-spacing:-3px}
-  .hero-copy{margin:28px 0 0;width:auto}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}
-  .photo{height:280px}
-}
-</style>
-
-<style>
-/* VELN: cart / contact UI */
+/* カート・コンタクト UI */
 .cart-panel{
   position:fixed;
   top:0; right:-430px;
@@ -294,11 +280,38 @@ footer{
   opacity:0;pointer-events:none;transition:.25s;z-index:200;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* レスポンシブ */
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 @media(max-width:760px){
+  .shell{display:block}
+  .side{
+    position:sticky;
+    top:0;
+    width:100%;
+    height:58px;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #191919;
+  }
+  .brand{margin:0}
+  .menu{margin-left:auto;display:flex;gap:15px}
+  .menu a{margin:0;font-size:10px}
+  .menu a:nth-child(n+4){display:none}
+  .side-foot{display:none}
+  .main{margin:0;padding:0 14px 50px}
+  .top{height:50px}
+  .hero{height:210px;display:block;padding-top:60px}
+  .hero h1{font-size:50px;letter-spacing:-3px}
+  .hero-copy{margin:28px 0 0;width:auto}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}
+  .photo{height:280px}
   .cart-panel{width:100%;right:-100%}
 }
 </style>
-
 </head>
 <body>
 <div class="shell">
@@ -313,12 +326,12 @@ footer{
     <a href="#" data-filter="all">Style</a>
     <a href="#" data-filter="all">VELN Stories ＋</a>
     <a href="#" data-filter="all">Shop List</a>
-    <a href="#" data-filter="all">Shopping Bag</a>
+    <a href="#" id="sideCartLink">Shopping Bag <span id="sideCartCount">(0)</span></a>
   </nav>
 
   <div class="side-foot">
     <a href="#">News / Concept</a>
-    <a href="#">My Page / Contact</a>
+    <a href="#" id="contactLink">My Page / Contact</a>
     <div class="icons"><span>ig</span><span>▶</span></div>
   </div>
 </aside>
@@ -450,23 +463,7 @@ footer{
 </main>
 </div>
 
-<script>
-const buttons=document.querySelectorAll('.filterbar button');
-const cards=document.querySelectorAll('.card');
-
-buttons.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const cat=btn.dataset.category;
-    buttons.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    cards.forEach(card=>{
-      card.style.display=(cat==='all'||card.dataset.type===cat)?'block':'none';
-    });
-  });
-});
-</script>
-
-<!-- CART -->
+<!-- CART PANEL -->
 <aside class="cart-panel" id="cartPanel">
   <div class="cart-head">
     <strong>SHOPPING BAG</strong>
@@ -481,7 +478,7 @@ buttons.forEach(btn=>{
   </div>
 </aside>
 
-<!-- CONTACT -->
+<!-- CONTACT MODAL -->
 <div class="contact-modal" id="contactModal">
   <div class="contact-box">
     <h2>CONTACT</h2>
@@ -501,6 +498,22 @@ buttons.forEach(btn=>{
 <div class="toast" id="toast"></div>
 
 <script>
+// カテゴリフィルター
+const buttons = document.querySelectorAll('.filterbar button');
+const cards = document.querySelectorAll('.card');
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const cat = btn.dataset.category;
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    cards.forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.type === cat) ? 'block' : 'none';
+    });
+  });
+});
+
+// カート & モーダル機能
 const cartPanel = document.getElementById('cartPanel');
 const cartItems = document.getElementById('cartItems');
 const cartCount = document.getElementById('cartCount');
@@ -511,8 +524,8 @@ let cart = [];
 function yen(n){ return '¥' + n.toLocaleString('ja-JP'); }
 
 function renderCart(){
-  cartCount.textContent = '(' + cart.length + ')';
-  sideCartCount.textContent = '(' + cart.length + ')';
+  if (cartCount) cartCount.textContent = '(' + cart.length + ')';
+  if (sideCartCount) sideCartCount.textContent = '(' + cart.length + ')';
 
   if(!cart.length){
     cartItems.innerHTML = '<div class="cart-empty">Your shopping bag is empty.</div>';
@@ -543,23 +556,29 @@ function closeCart(){
 }
 
 function showToast(text){
-  const t=document.getElementById('toast');
-  t.textContent=text;
+  const t = document.getElementById('toast');
+  t.textContent = text;
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),1800);
 }
 
-document.getElementById('cartBtn').onclick=openCart;
-document.getElementById('sideCartLink').onclick=e=>{e.preventDefault();openCart()};
-document.getElementById('closeCart').onclick=closeCart;
+// イベントバインド
+const cartBtn = document.getElementById('cartBtn');
+if (cartBtn) cartBtn.onclick = openCart;
+
+const sideCartLink = document.getElementById('sideCartLink');
+if (sideCartLink) sideCartLink.onclick = e => { e.preventDefault(); openCart(); };
+
+const closeCartBtn = document.getElementById('closeCart');
+if (closeCartBtn) closeCartBtn.onclick = closeCart;
 
 document.querySelectorAll('.add-cart').forEach(btn=>{
-  btn.addEventListener('click',e=>{
+  btn.addEventListener('click', e => {
     e.stopPropagation();
-    const card=btn.closest('.card');
-    const name=card.querySelector('.name').textContent.trim();
-    const priceText=card.querySelector('.price').textContent.replace(/SOLD OUT/g,'').replace(/[¥,]/g,'').trim();
-    const price=parseInt(priceText,10)||0;
+    const card = btn.closest('.card');
+    const name = card.querySelector('.name').textContent.trim();
+    const priceText = card.querySelector('.price').textContent.replace(/SOLD OUT/g,'').replace(/[¥,]/g,'').trim();
+    const price = parseInt(priceText,10) || 0;
     if(card.querySelector('.sold')){
       showToast('この商品はSOLD OUTです');
       return;
@@ -570,24 +589,33 @@ document.querySelectorAll('.add-cart').forEach(btn=>{
   });
 });
 
-document.getElementById('checkoutBtn').onclick=()=>{
-  if(!cart.length){showToast('カートが空です');return;}
+const checkoutBtn = document.getElementById('checkoutBtn');
+if (checkoutBtn) checkoutBtn.onclick = () => {
+  if(!cart.length){ showToast('カートが空です'); return; }
   showToast('チェックアウト画面をここに接続できます');
 };
 
-const contactModal=document.getElementById('contactModal');
-document.getElementById('contactLink').onclick=e=>{
+const contactModal = document.getElementById('contactModal');
+const contactLink = document.getElementById('contactLink');
+if (contactLink) contactLink.onclick = e => {
   e.preventDefault();
   contactModal.classList.add('open');
 };
-document.getElementById('closeContact').onclick=()=>contactModal.classList.remove('open');
-contactModal.addEventListener('click',e=>{
-  if(e.target===contactModal) contactModal.classList.remove('open');
-});
-document.getElementById('sendContact').onclick=()=>{
-  const name=document.getElementById('contactName').value.trim();
-  const email=document.getElementById('contactEmail').value.trim();
-  const message=document.getElementById('contactMessage').value.trim();
+
+const closeContactBtn = document.getElementById('closeContact');
+if (closeContactBtn) closeContactBtn.onclick = () => contactModal.classList.remove('open');
+
+if (contactModal) {
+  contactModal.addEventListener('click', e => {
+    if(e.target === contactModal) contactModal.classList.remove('open');
+  });
+}
+
+const sendContactBtn = document.getElementById('sendContact');
+if (sendContactBtn) sendContactBtn.onclick = () => {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
   if(!name || !email || !message){
     showToast('すべて入力してください');
     return;
@@ -596,6 +624,5 @@ document.getElementById('sendContact').onclick=()=>{
   showToast('お問い合わせを受け付けました');
 };
 </script>
-
 </body>
 </html>

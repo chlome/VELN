@@ -47,12 +47,12 @@ button{font:inherit}
 .card{min-width:0}
 .photo{height:370px;position:relative;display:grid;place-items:center;background:#080808;overflow:hidden}
 .photo:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,#151515 0,#080808 62%,#000 100%)}
-.product{position:relative;width:78%;height:78%;transition:transform .35s ease}
+.product{position:relative;width:78%;height:78%;object-fit:contain;transition:transform .35s ease}
 .card:hover .product{transform:scale(1.045)}
 
-.add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:opacity .2s ease}
+.add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:opacity .2s ease;z-index:2}
 .card:hover .add-cart{opacity:1}
-.detail{position:absolute;right:12px;bottom:12px;opacity:0;transition:opacity .2s ease;font-size:9px}
+.detail{position:absolute;right:12px;bottom:12px;opacity:0;transition:opacity .2s ease;font-size:9px;z-index:2}
 .card:hover .detail{opacity:1}
 
 .info{padding-top:15px;min-height:60px}
@@ -181,12 +181,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <!-- BAG 1 -->
       <article class="card" data-type="bags">
         <div class="photo">
-          <svg class="product" viewBox="0 0 300 270">
-            <path d="M65 84Q150-35 235 84" fill="none" stroke="#ddd" stroke-width="7" stroke-linecap="round"/>
-            <rect x="54" y="70" width="192" height="124" rx="22" fill="#151515" stroke="#444" stroke-width="3"/>
-            <rect x="114" y="109" width="72" height="26" rx="4" fill="#f4f4f4"/>
-            <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#111">VELN</text>
-          </svg>
+          <img src="toto.jpg" alt="City Shoulder Bag (black)" class="product">
           <span class="detail">詳細を見る &rarr;</span>
           <button class="add-cart" type="button">カートに入れる</button>
         </div>
@@ -199,12 +194,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <!-- BAG 2 -->
       <article class="card" data-type="bags">
         <div class="photo">
-          <svg class="product" viewBox="0 0 300 270">
-            <path d="M65 84Q150-35 235 84" fill="none" stroke="#536170" stroke-width="7" stroke-linecap="round"/>
-            <rect x="54" y="70" width="192" height="124" rx="22" fill="#172738" stroke="#43505d" stroke-width="3"/>
-            <rect x="114" y="109" width="72" height="26" rx="4" fill="#ddd"/>
-            <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#172738">VELN</text>
-          </svg>
+          <img src="toto.jpg" alt="City Shoulder Bag (navy)" class="product">
           <span class="detail">詳細を見る &rarr;</span>
           <button class="add-cart" type="button">カートに入れる</button>
         </div>
@@ -597,6 +587,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-<img src="toto.png" alt="商品画像" style="max-width: 100%; height: auto; display: block; margin: 20px auto;">
 </body>
 </html>

@@ -333,7 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       cards.forEach(card => {
-        card.style.display = (cat === 'all' || card.dataset.type === cat) ? 'block' : 'none';
+        // 'block' から '' (空文字) に変更することでCSS Gridの定義を維持
+        card.style.display = (cat === 'all' || card.dataset.type === cat) ? '' : 'none';
       });
     });
   });

@@ -60,7 +60,7 @@ button{font:inherit}
 
 footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:flex;justify-content:space-between;color:#555;font-size:9px}
 
-/* UI MODALS */
+/* UI MODALS & PANELS */
 .cart-panel{position:fixed;top:0;right:-430px;width:min(430px,92vw);height:100vh;background:#090909;border-left:1px solid #222;z-index:100;padding:28px;transition:right .3s ease;box-shadow:-20px 0 60px rgba(0,0,0,.35)}
 .cart-panel.open{right:0}
 .cart-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:22px;border-bottom:1px solid #222}
@@ -71,8 +71,10 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 .cart-total-row{display:flex;justify-content:space-between;margin-bottom:18px;font-size:11px}
 .checkout{width:100%;padding:15px;background:#fff;color:#000;border:0;cursor:pointer;font-size:10px;letter-spacing:.12em}
 
-.contact-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:110;align-items:center;justify-content:center;padding:20px}
-.contact-modal.open{display:flex}
+/* MODAL COMMON */
+.contact-modal, .stories-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:20px}
+.contact-modal.open, .stories-modal.open{display:flex}
+
 .contact-box{width:min(560px,100%);background:#0b0b0b;border:1px solid #292929;padding:30px}
 .contact-box h2{margin:0 0 24px;font-size:22px}
 .contact-box label{display:block;color:#888;font-size:9px;margin:18px 0 7px}
@@ -81,6 +83,15 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 .contact-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}
 .contact-actions button{padding:11px 18px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer}
 .contact-actions .send{background:#fff;color:#000;border-color:#fff}
+
+/* STORIES MODAL SPECIFIC */
+.stories-box{width:min(500px,100%);background:#0b0b0b;border:1px solid #292929;padding:40px 30px;text-align:center}
+.stories-box h2{margin:0 0 20px;font-size:20px;letter-spacing:2px;font-weight:900;font-style:italic}
+.stories-box .sub{color:#888;font-size:11px;margin-bottom:30px;letter-spacing:1px}
+.stories-box .body-text{font-size:12px;line-height:2.2;color:#ddd;margin-bottom:30px}
+.stories-box .jp-text{font-size:11px;line-height:2.2;color:#aaa;border-top:1px solid #222;padding-top:20px}
+.stories-box button{margin-top:30px;padding:10px 24px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer;font-size:10px}
+.stories-box button:hover{background:#fff;color:#000}
 
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#fff;color:#000;padding:11px 18px;font-size:10px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -115,9 +126,9 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <a href="#" data-filter="all">Item +</a>
       <a href="#" data-filter="all">Custom</a>
       <a href="#" data-filter="all">Style</a>
-      <a href="#" data-filter="all">VELN Stories +</a>
-      <a href="#" data-filter="all">Shop List</a>
-      <a href="#" id="sideCartLink">Shopping Bag <span id="sideCartCount">(0)</span></a>
+      <a href="#" id="storiesLink">VELN Stories +</a>
+      <a href="#">Shop List</a>
+      <a href="#" id="sideCartLink">Cart <span id="sideCartCount">(0)</span></a>
     </nav>
     <div class="side-foot">
       <a href="#">News / Concept</a>
@@ -129,7 +140,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
   <main class="main">
     <div class="top">
       <span id="searchBtn">SEARCH</span>
-      <span id="cartBtn">SHOPPING BAG <span id="cartCount">(0)</span></span>
+      <span id="cartBtn">CART <span id="cartCount">(0)</span></span>
     </div>
 
     <section class="hero">
@@ -291,13 +302,14 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
   </main>
 </div>
 
+<!-- CART PANEL -->
 <aside class="cart-panel" id="cartPanel">
   <div class="cart-head">
-    <strong>SHOPPING BAG</strong>
+    <strong>CART</strong>
     <button class="close-cart" id="closeCart">&times;</button>
   </div>
   <div class="cart-items" id="cartItems">
-    <div class="cart-empty">Your shopping bag is empty.</div>
+    <div class="cart-empty">Your cart is empty.</div>
   </div>
   <div class="cart-total">
     <div class="cart-total-row"><span>TOTAL</span><strong id="cartTotal">&yen;0</strong></div>
@@ -305,6 +317,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
   </div>
 </aside>
 
+<!-- CONTACT MODAL -->
 <div class="contact-modal" id="contactModal">
   <div class="contact-box">
     <h2>CONTACT</h2>
@@ -318,6 +331,22 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       <button id="closeContact">CLOSE</button>
       <button class="send" id="sendContact">SEND</button>
     </div>
+  </div>
+</div>
+
+<!-- VELN STORIES MODAL -->
+<div class="stories-modal" id="storiesModal">
+  <div class="stories-box">
+    <h2>VELN MOONBLOOM</h2>
+    <div class="sub">For Those Who Grow Quietly.</div>
+    <div class="body-text">
+      Inspired by the moon. Defined by growth.
+    </div>
+    <div class="jp-text">
+      月のように静かに。<br>
+      自分らしく、咲き続ける。
+    </div>
+    <button id="closeStories">CLOSE</button>
   </div>
 </div>
 
@@ -361,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sideCartCount) sideCartCount.textContent = `(${cart.length})`;
 
     if (!cart.length) {
-      if (cartItems) cartItems.innerHTML = '<div class="cart-empty">Your shopping bag is empty.</div>';
+      if (cartItems) cartItems.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
       if (cartTotal) cartTotal.textContent = '¥0';
       return;
     }
@@ -428,17 +457,15 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('チェックアウト画面へ遷移します');
   });
 
+  // CONTACT MODAL
   const contactModal = document.getElementById('contactModal');
-
   document.getElementById('contactLink')?.addEventListener('click', e => {
     e.preventDefault();
     contactModal?.classList.add('open');
   });
-
   document.getElementById('closeContact')?.addEventListener('click', () => {
     contactModal?.classList.remove('open');
   });
-
   contactModal?.addEventListener('click', e => {
     if (e.target === contactModal) contactModal.classList.remove('open');
   });
@@ -459,6 +486,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('contactName').value = '';
     document.getElementById('contactEmail').value = '';
     document.getElementById('contactMessage').value = '';
+  });
+
+  // VELN STORIES MODAL
+  const storiesModal = document.getElementById('storiesModal');
+  document.getElementById('storiesLink')?.addEventListener('click', e => {
+    e.preventDefault();
+    storiesModal?.classList.add('open');
+  });
+  document.getElementById('closeStories')?.addEventListener('click', () => {
+    storiesModal?.classList.remove('open');
+  });
+  storiesModal?.addEventListener('click', e => {
+    if (e.target === storiesModal) storiesModal.classList.remove('open');
   });
 });
 </script>

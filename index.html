@@ -24,6 +24,8 @@ button{font:inherit}
 .icons{display:flex;gap:14px;margin-top:30px}
 .icons span{width:18px;height:18px;display:grid;place-items:center;border:1px solid #fff;border-radius:50%;font-size:8px}
 
+.mobile-menu-btn{display:none;background:none;border:0;color:#fff;font-size:18px;cursor:pointer}
+
 /* MAIN FIX */
 .main{margin-left:155px;width:calc(100% - 155px);padding:0 38px 80px}
 .top{height:74px;display:flex;justify-content:flex-end;align-items:center;gap:22px;color:#aaa;font-size:10px}
@@ -61,7 +63,7 @@ button{font:inherit}
 footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:flex;justify-content:space-between;color:#555;font-size:9px}
 
 /* UI MODALS & PANELS */
-.cart-panel, .checkout-panel{position:fixed;top:0;right:-450px;width:min(430px,92vw);height:100vh;background:#090909;border-left:1px solid #222;z-index:150;padding:28px;transition:right .3s ease;box-shadow:-20px 0 60px rgba(0,0,0,.5);overflow-y:auto}
+.cart-panel, .checkout-panel{position:fixed;top:0;right:-450px;width:min(430px,92vw);height:100vh;background:#090909;border-left:1px solid #222;z-index:250;padding:28px;transition:right .3s ease;box-shadow:-20px 0 60px rgba(0,0,0,.5);overflow-y:auto}
 .cart-panel.open, .checkout-panel.open{right:0}
 .cart-head, .checkout-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:22px;border-bottom:1px solid #222}
 .close-cart, .close-checkout{border:0;background:none;color:#fff;cursor:pointer;font-size:20px}
@@ -69,19 +71,19 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 .cart-empty{color:#777;font-size:11px;line-height:1.8}
 .cart-total{position:absolute;left:28px;right:28px;bottom:28px;background:#090909;border-top:1px solid #222;padding-top:18px}
 .cart-total-row{display:flex;justify-content:space-between;margin-bottom:18px;font-size:11px}
-.checkout{width:100%;padding:15px;background:#fff;color:#000;border:0;cursor:pointer;font-size:10px;letter-spacing:.12em;font-weight:bold}
+.checkout{width:100%;padding:15px;background:#fff;color:#000;border:0;cursor:pointer;font-size:11px;letter-spacing:.12em;font-weight:bold}
 
 /* CHECKOUT FORM UI */
 .checkout-body{padding:20px 0 40px}
-.checkout-body label{display:block;color:#888;font-size:9px;margin:14px 0 5px}
+.checkout-body label{display:block;color:#888;font-size:10px;margin:14px 0 5px;letter-spacing:0.05em}
 .checkout-body input, .checkout-body select{width:100%;background:#050505;border:1px solid #292929;color:#fff;padding:10px;outline:none;font:inherit;font-size:11px}
 .checkout-summary{margin-top:24px;padding-top:15px;border-top:1px solid #222;font-size:11px}
 .checkout-summary div{display:flex;justify-content:space-between;margin-bottom:8px;color:#aaa}
 .checkout-summary .total-row{color:#fff;font-weight:bold;margin-top:12px;padding-top:8px;border-top:1px solid #333}
-.submit-order{width:100%;margin-top:20px;padding:15px;background:#fff;color:#000;border:0;cursor:pointer;font-size:10px;letter-spacing:.12em;font-weight:bold}
+.submit-order{width:100%;margin-top:20px;padding:15px;background:#fff;color:#000;border:0;cursor:pointer;font-size:11px;letter-spacing:.12em;font-weight:bold}
 
 /* MODAL COMMON */
-.contact-modal, .stories-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:20px}
+.contact-modal, .stories-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;align-items:center;justify-content:center;padding:20px}
 .contact-modal.open, .stories-modal.open{display:flex}
 
 .contact-box{width:min(560px,100%);background:#0b0b0b;border:1px solid #292929;padding:30px}
@@ -102,26 +104,30 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 .stories-box button{margin-top:30px;padding:10px 24px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer;font-size:10px}
 .stories-box button:hover{background:#fff;color:#000}
 
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#fff;color:#000;padding:11px 18px;font-size:10px;opacity:0;pointer-events:none;transition:.25s;z-index:300}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#fff;color:#000;padding:11px 18px;font-size:10px;opacity:0;pointer-events:none;transition:.25s;z-index:400}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* RESPONSIVE */
+/* RESPONSIVE FIX FOR MOBILE SIDEBAR */
 @media(max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){
   .shell{display:block}
-  .side{position:sticky;top:0;width:100%;height:58px;padding:0 16px;display:flex;align-items:center;border-bottom:1px solid #191919}
+  .side{position:sticky;top:0;width:100%;height:60px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #191919;z-index:200}
   .brand{margin:0}
-  .menu{margin-left:auto;display:flex;gap:15px}
-  .menu a{margin:0;font-size:10px}
-  .menu a:nth-child(n+4){display:none}
-  .side-foot{display:none}
+  .mobile-menu-btn{display:block}
+  .menu{position:fixed;top:60px;left:0;right:0;bottom:0;background:#000;padding:30px 20px;display:none;flex-direction:column;gap:18px;overflow-y:auto}
+  .menu.open{display:flex}
+  .menu a{font-size:14px;margin:0;border-bottom:1px solid #111;padding-bottom:12px}
+  .side-foot{position:static;margin-top:20px;border-top:1px solid #222;padding-top:20px}
+  .side-foot a{font-size:13px;margin-bottom:12px}
+  
   .main{margin:0;width:100%;padding:0 14px 50px}
   .top{height:50px}
-  .hero{height:180px;display:block;padding-top:40px}
-  .hero h1{font-size:50px;letter-spacing:-3px}
-  .hero-copy{margin:20px 0 0;width:auto}
+  .hero{height:auto;display:block;padding:20px 0}
+  .hero h1{font-size:46px;letter-spacing:-3px}
+  .hero-copy{margin:15px 0 0;width:auto}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}
-  .photo{height:280px}
+  .photo{height:220px}
+  .add-cart{opacity:1}
 }
 </style>
 </head>
@@ -130,26 +136,27 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 <div class="shell">
   <aside class="side">
     <a class="brand" href="#">VELN</a>
-    <nav class="menu">
-      <a href="#" data-filter="all">Top</a>
-      <a href="#" data-filter="all">Item +</a>
-      <a href="#" data-filter="all">Custom</a>
-      <a href="#" data-filter="all">Style</a>
+    <button class="mobile-menu-btn" id="menuToggle">☰</button>
+    <nav class="menu" id="sideMenu">
+      <a href="#" data-filter="all" class="nav-close">Top</a>
+      <a href="#" data-filter="all" class="nav-close">Item +</a>
+      <a href="#" data-filter="all" class="nav-close">Custom</a>
+      <a href="#" data-filter="all" class="nav-close">Style</a>
       <a href="#" id="storiesLink">VELN Stories +</a>
-      <a href="#">Shop List</a>
-      <a href="#" id="sideCartLink">Cart <span id="sideCartCount">(0)</span></a>
+      <a href="#" class="nav-close">Shop List</a>
+      <a href="#" id="sideCartLink">カート <span id="sideCartCount">(0)</span></a>
+      <div class="side-foot">
+        <a href="#" class="nav-close">News / Concept</a>
+        <a href="#" id="contactLink">マイページ / お問い合わせ</a>
+        <div class="icons"><span>ig</span><span>▶</span></div>
+      </div>
     </nav>
-    <div class="side-foot">
-      <a href="#">News / Concept</a>
-      <a href="#" id="contactLink">My Page / Contact</a>
-      <div class="icons"><span>ig</span><span>▶</span></div>
-    </div>
   </aside>
 
   <main class="main">
     <div class="top">
-      <span id="searchBtn">SEARCH</span>
-      <span id="cartBtn">CART <span id="cartCount">(0)</span></span>
+      <span id="searchBtn">検索</span>
+      <span id="cartBtn">カート <span id="cartCount">(0)</span></span>
     </div>
 
     <section class="hero">
@@ -164,7 +171,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
     <div class="line"></div>
 
     <div class="filterbar">
-      <button class="active" data-category="all">ALL</button>
+      <button class="active" data-category="all">すべて</button>
       <button data-category="tops">TOPS</button>
       <button data-category="bottoms">BOTTOMS</button>
       <button data-category="bags">BAGS</button>
@@ -180,8 +187,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <rect x="114" y="109" width="72" height="26" rx="4" fill="#f4f4f4"/>
             <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#111">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">City Shoulder Bag (black)</div>
@@ -198,8 +205,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <rect x="114" y="109" width="72" height="26" rx="4" fill="#ddd"/>
             <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#172738">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">City Shoulder Bag (navy)</div>
@@ -215,8 +222,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M69 65Q150 83 231 65" fill="none" stroke="#aaa" stroke-width="3"/>
             <text x="192" y="170" font-size="8" fill="#ddd">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Nylon City Shorts (black)</div>
@@ -232,8 +239,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
             <text x="192" y="170" font-size="8" fill="#111">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Nylon City Shorts (light green)</div>
@@ -249,8 +256,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
             <text x="192" y="170" font-size="8" fill="#eaffff">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Nylon City Shorts (turquoise)</div>
@@ -265,8 +272,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#242424" stroke="#555" stroke-width="3"/>
             <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ffd22f">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Tee - PICK UP PLAYGROUND- (black/yellow)</div>
@@ -281,8 +288,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#3159d5" stroke="#6684ee" stroke-width="3"/>
             <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ff7a22">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Tee -PICK UP PLAYGROUND- (royal blue/orange)</div>
@@ -297,8 +304,8 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
             <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#f4f4f4" stroke="#aaa" stroke-width="3"/>
             <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#151515">VELN</text>
           </svg>
-          <span class="detail">DETAIL &rarr;</span>
-          <button class="add-cart" type="button">ADD TO CART</button>
+          <span class="detail">詳細を見る &rarr;</span>
+          <button class="add-cart" type="button">カートに入れる</button>
         </div>
         <div class="info">
           <div class="name">Logo Tee -PICK UP PLAYGROUND- (white)</div>
@@ -314,64 +321,64 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 <!-- CART PANEL -->
 <aside class="cart-panel" id="cartPanel">
   <div class="cart-head">
-    <strong>CART</strong>
+    <strong>ショッピングカート</strong>
     <button class="close-cart" id="closeCart">&times;</button>
   </div>
   <div class="cart-items" id="cartItems">
-    <div class="cart-empty">Your cart is empty.</div>
+    <div class="cart-empty">カートに商品が入っていません。</div>
   </div>
   <div class="cart-total">
-    <div class="cart-total-row"><span>TOTAL</span><strong id="cartTotal">&yen;0</strong></div>
-    <button class="checkout" id="checkoutBtn" type="button">CHECKOUT</button>
+    <div class="cart-total-row"><span>合計</span><strong id="cartTotal">&yen;0</strong></div>
+    <button class="checkout" id="checkoutBtn" type="button">レジに進む</button>
   </div>
 </aside>
 
 <!-- CHECKOUT PANEL -->
 <aside class="checkout-panel" id="checkoutPanel">
   <div class="checkout-head">
-    <strong>CHECKOUT</strong>
+    <strong>ご注文手続き</strong>
     <button class="close-checkout" id="closeCheckout">&times;</button>
   </div>
   <form id="checkoutForm" class="checkout-body">
-    <label>NAME</label>
+    <label>お名前</label>
     <input type="text" id="orderName" placeholder="山田 太郎" required>
-    <label>EMAIL</label>
+    <label>メールアドレス</label>
     <input type="email" id="orderEmail" placeholder="example@veln.jp" required>
-    <label>POSTAL CODE</label>
+    <label>郵便番号</label>
     <input type="text" id="orderZip" placeholder="100-0001" required>
-    <label>ADDRESS</label>
+    <label>お届け先住所</label>
     <input type="text" id="orderAddress" placeholder="東京都千代田区1-1-1" required>
-    <label>PAYMENT METHOD</label>
+    <label>お支払い方法</label>
     <select id="orderPayment">
-      <option value="credit">Credit Card</option>
-      <option value="convenience">Convenience Store</option>
-      <option value="cod">Cash on Delivery</option>
+      <option value="credit">クレジットカード決済</option>
+      <option value="convenience">コンビニ決済</option>
+      <option value="cod">代金引換</option>
     </select>
     
     <div class="checkout-summary">
-      <div><span>Subtotal</span><span id="summarySubtotal">&yen;0</span></div>
-      <div><span>Shipping</span><span>&yen;500</span></div>
-      <div class="total-row"><span>Total</span><span id="summaryTotal">&yen;0</span></div>
+      <div><span>小計</span><span id="summarySubtotal">&yen;0</span></div>
+      <div><span>送料</span><span>&yen;500</span></div>
+      <div class="total-row"><span>お支払い合計</span><span id="summaryTotal">&yen;0</span></div>
     </div>
     
-    <button type="submit" class="submit-order">PLACE ORDER</button>
+    <button type="submit" class="submit-order">注文を確定する</button>
   </form>
 </aside>
 
 <!-- CONTACT MODAL -->
 <div class="contact-modal" id="contactModal">
   <div class="contact-box">
-    <h2>CONTACT</h2>
+    <h2>お問い合わせ</h2>
     <form id="contactForm">
-      <label>NAME</label>
-      <input id="contactName" type="text" placeholder="お名前" required>
-      <label>EMAIL</label>
-      <input id="contactEmail" type="email" placeholder="メールアドレス" required>
-      <label>MESSAGE</label>
-      <textarea id="contactMessage" placeholder="お問い合わせ内容" required></textarea>
+      <label>お名前</label>
+      <input id="contactName" type="text" placeholder="山田 太郎" required>
+      <label>メールアドレス</label>
+      <input id="contactEmail" type="email" placeholder="example@veln.jp" required>
+      <label>お問い合わせ内容</label>
+      <textarea id="contactMessage" placeholder="ご質問やメッセージを入力してください" required></textarea>
       <div class="contact-actions">
-        <button type="button" id="closeContact">CLOSE</button>
-        <button type="submit" class="send" id="sendContact">SEND</button>
+        <button type="button" id="closeContact">閉じる</button>
+        <button type="submit" class="send" id="sendContact">送信する</button>
       </div>
     </form>
   </div>
@@ -389,7 +396,7 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
       月のように静かに。<br>
       自分らしく、咲き続ける。
     </div>
-    <button id="closeStories">CLOSE</button>
+    <button id="closeStories">閉じる</button>
   </div>
 </div>
 
@@ -397,6 +404,23 @@ footer{margin-top:100px;padding-top:20px;border-top:1px solid #191919;display:fl
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Mobile Menu Handler
+  const menuToggle = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('sideMenu');
+  
+  menuToggle?.addEventListener('click', () => {
+    sideMenu?.classList.toggle('open');
+    menuToggle.textContent = sideMenu?.classList.contains('open') ? '✕' : '☰';
+  });
+
+  document.querySelectorAll('.nav-close').forEach(link => {
+    link.addEventListener('click', () => {
+      sideMenu?.classList.remove('open');
+      if (menuToggle) menuToggle.textContent = '☰';
+    });
+  });
+
+  // Filter Buttons
   const buttons = document.querySelectorAll('.filterbar button');
   const cards = document.querySelectorAll('.card');
 
@@ -411,6 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Cart Management
   let cart = [];
   const cartPanel = document.getElementById('cartPanel');
   const checkoutPanel = document.getElementById('checkoutPanel');
@@ -436,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sideCartCount) sideCartCount.textContent = `(${cart.length})`;
 
     if (!cart.length) {
-      if (cartItems) cartItems.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+      if (cartItems) cartItems.innerHTML = '<div class="cart-empty">カートに商品が入っていません。</div>';
       if (cartTotal) cartTotal.textContent = '¥0';
       if (summarySubtotal) summarySubtotal.textContent = '¥0';
       if (summaryTotal) summaryTotal.textContent = '¥0';
@@ -466,7 +491,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const openCart = () => cartPanel?.classList.add('open');
+  const openCart = () => {
+    sideMenu?.classList.remove('open');
+    if (menuToggle) menuToggle.textContent = '☰';
+    cartPanel?.classList.add('open');
+  };
   const closeCart = () => cartPanel?.classList.remove('open');
   const openCheckout = () => {
     cartPanel?.classList.remove('open');
@@ -519,12 +548,14 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCheckout();
   });
 
-  // CONTACT MODAL MAILTO IMPLEMENTATION
+  // CONTACT MODAL
   const contactModal = document.getElementById('contactModal');
   const contactForm = document.getElementById('contactForm');
 
   document.getElementById('contactLink')?.addEventListener('click', e => {
     e.preventDefault();
+    sideMenu?.classList.remove('open');
+    if (menuToggle) menuToggle.textContent = '☰';
     contactModal?.classList.add('open');
   });
   document.getElementById('closeContact')?.addEventListener('click', () => {
@@ -554,6 +585,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const storiesModal = document.getElementById('storiesModal');
   document.getElementById('storiesLink')?.addEventListener('click', e => {
     e.preventDefault();
+    sideMenu?.classList.remove('open');
+    if (menuToggle) menuToggle.textContent = '☰';
     storiesModal?.classList.add('open');
   });
   document.getElementById('closeStories')?.addEventListener('click', () => {

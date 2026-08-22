@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELN — SHOP</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:12px;
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+
+.shell{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:155px 1fr;
+}
+
+/* 左側：元サイトのように細く固定 */
+.side{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:155px;
+  padding:34px 28px;
+  background:#000;
+  z-index:20;
+}
+.brand{
+  display:block;
+  font-size:19px;
+  line-height:1;
+  font-weight:900;
+  font-style:italic;
+  letter-spacing:-1.5px;
+  margin-bottom:365px;
+}
+.menu a{
+  display:block;
+  color:#fff;
+  font-size:12px;
+  line-height:1.35;
+  margin:0 0 18px;
+}
+.menu a:hover{opacity:.55}
+.menu .plus{margin-left:3px}
+.side-foot{
+  position:absolute;
+  left:28px;
+  bottom:38px;
+}
+.side-foot a{
+  display:block;
+  margin-bottom:18px;
+  font-size:11px;
+}
+.icons{
+  display:flex;
+  gap:14px;
+  margin-top:30px;
+}
+.icons span{
+  width:18px;height:18px;
+  display:grid;place-items:center;
+  border:1px solid #fff;
+  border-radius:50%;
+  font-size:8px;
+}
+
+/* メイン */
+.main{
+  margin-left:155px;
+  padding:0 38px 80px;
+}
+.top{
+  height:74px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:22px;
+  color:#aaa;
+  font-size:10px;
+}
+.top span{cursor:pointer}
+.top span:hover{color:#fff}
+
+.hero{
+  height:245px;
+  display:flex;
+  align-items:flex-end;
+  padding-bottom:28px;
+}
+.hero h1{
+  margin:0;
+  font-size:72px;
+  line-height:.82;
+  letter-spacing:-5px;
+  font-weight:900;
+  font-style:italic;
+}
+.hero-copy{
+  margin-left:auto;
+  width:310px;
+  color:#777;
+  line-height:1.8;
+  font-size:10px;
+}
+
+.line{
+  border-top:1px solid #191919;
+}
+.filterbar{
+  display:flex;
+  gap:27px;
+  padding:17px 0 18px;
+}
+.filterbar button{
+  border:0;
+  background:none;
+  color:#666;
+  padding:0;
+  cursor:pointer;
+  font-size:10px;
+  letter-spacing:.05em;
+}
+.filterbar button.active,.filterbar button:hover{color:#fff}
+
+/* 商品はスクショのような余白多め4列 */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:32px;
+  row-gap:42px;
+}
+.card{min-width:0}
+.photo{
+  height:370px;
+  position:relative;
+  display:grid;
+  place-items:center;
+  background:#080808;
+  overflow:hidden;
+}
+.photo:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center,#151515 0,#080808 62%,#000 100%);
+}
+.product{
+  position:relative;
+  width:78%;
+  height:78%;
+  transition:transform .35s ease;
+}
+.card:hover .product{transform:scale(1.045)}
+.info{
+  padding-top:15px;
+  min-height:60px;
+}
+.name{
+  font-size:10px;
+  line-height:1.5;
+}
+.price{
+  margin-top:5px;
+  font-size:10px;
+  color:#aaa;
+}
+.sold{color:#f05d5d;margin-left:10px}
+.add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:.2s}.card:hover .add-cart{opacity:1}.add-cart:hover{opacity:.8!important}.detail{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  opacity:0;
+  transition:.2s;
+  font-size:9px;
+}
+.card:hover .add-cart{position:absolute;left:12px;bottom:12px;background:#fff;color:#000;border:0;padding:7px 9px;font-size:8px;cursor:pointer;opacity:0;transition:.2s}.card:hover .add-cart{opacity:1}.add-cart:hover{opacity:.8!important}.detail{opacity:1}
+
+footer{
+  margin-top:100px;
+  padding-top:20px;
+  border-top:1px solid #191919;
+  display:flex;
+  justify-content:space-between;
+  color:#555;
+  font-size:9px;
+}
+
+/* 画面幅 */
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .shell{display:block}
+  .side{
+    position:sticky;
+    top:0;
+    width:100%;
+    height:58px;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #191919;
+  }
+  .brand{margin:0}
+  .menu{margin-left:auto;display:flex;gap:15px}
+  .menu a{margin:0;font-size:10px}
+  .menu a:nth-child(n+4){display:none}
+  .side-foot{display:none}
+  .main{margin:0;padding:0 14px 50px}
+  .top{height:50px}
+  .hero{height:210px;display:block;padding-top:60px}
+  .hero h1{font-size:50px;letter-spacing:-3px}
+  .hero-copy{margin:28px 0 0;width:auto}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}
+  .photo{height:280px}
+}
+</style>
+
+<style>
+/* VELN: cart / contact UI */
+.cart-panel{
+  position:fixed;
+  top:0; right:-430px;
+  width:min(430px,92vw);
+  height:100vh;
+  background:#090909;
+  border-left:1px solid #222;
+  z-index:100;
+  padding:28px;
+  transition:right .3s ease;
+  box-shadow:-20px 0 60px rgba(0,0,0,.35);
+}
+.cart-panel.open{right:0}
+.cart-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:22px;
+  border-bottom:1px solid #222;
+}
+.cart-head strong{font-size:12px;letter-spacing:.12em}
+.close-cart{
+  border:0;background:none;color:#fff;cursor:pointer;font-size:20px;
+}
+.cart-items{padding:24px 0}
+.cart-empty{color:#777;font-size:11px;line-height:1.8}
+.cart-total{
+  position:absolute;left:28px;right:28px;bottom:28px;
+  border-top:1px solid #222;padding-top:18px;
+}
+.cart-total-row{
+  display:flex;justify-content:space-between;margin-bottom:18px;font-size:11px;
+}
+.checkout{
+  width:100%;padding:15px;background:#fff;color:#000;
+  border:0;cursor:pointer;font-size:10px;letter-spacing:.12em;
+}
+.checkout:hover{opacity:.85}
+
+.contact-modal{
+  display:none;
+  position:fixed;inset:0;background:rgba(0,0,0,.78);
+  z-index:110;align-items:center;justify-content:center;padding:20px;
+}
+.contact-modal.open{display:flex}
+.contact-box{
+  width:min(560px,100%);
+  background:#0b0b0b;border:1px solid #292929;
+  padding:30px;
+}
+.contact-box h2{margin:0 0 24px;font-size:22px;letter-spacing:-.04em}
+.contact-box label{display:block;color:#888;font-size:9px;margin:18px 0 7px}
+.contact-box input,.contact-box textarea{
+  width:100%;background:#050505;border:1px solid #292929;
+  color:#fff;padding:12px;outline:none;font:inherit;
+}
+.contact-box textarea{height:130px;resize:vertical}
+.contact-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px}
+.contact-actions button{
+  padding:11px 18px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer;
+}
+.contact-actions .send{background:#fff;color:#000;border-color:#fff}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+  background:#fff;color:#000;padding:11px 18px;font-size:10px;
+  opacity:0;pointer-events:none;transition:.25s;z-index:200;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){
+  .cart-panel{width:100%;right:-100%}
+}
+</style>
+
+</head>
+<body>
+<div class="shell">
+
+<aside class="side">
+  <a class="brand" href="#">VELN</a>
+
+  <nav class="menu">
+    <a href="#" data-filter="all">Top</a>
+    <a href="#" data-filter="all">Item ＋</a>
+    <a href="#" data-filter="all">Custom</a>
+    <a href="#" data-filter="all">Style</a>
+    <a href="#" data-filter="all">VELN Stories ＋</a>
+    <a href="#" data-filter="all">Shop List</a>
+    <a href="#" data-filter="all">Shopping Bag</a>
+  </nav>
+
+  <div class="side-foot">
+    <a href="#">News / Concept</a>
+    <a href="#">My Page / Contact</a>
+    <div class="icons"><span>ig</span><span>▶</span></div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="top">
+    <span id="searchBtn">SEARCH</span>
+    <span id="cartBtn">SHOPPING BAG <span id="cartCount">(0)</span></span>
+  </div>
+
+  <section class="hero">
+    <h1>NEW<br>ITEMS</h1>
+    <div class="hero-copy">
+      PICK UP PLAYGROUND<br>
+      DAILY BASKETBALL UNIFORM.<br>
+      STREET, COURT AND CITY.
+    </div>
+  </section>
+
+  <div class="line"></div>
+
+  <div class="filterbar">
+    <button class="active" data-category="all">ALL</button>
+    <button data-category="tops">TOPS</button>
+    <button data-category="bottoms">BOTTOMS</button>
+    <button data-category="bags">BAGS</button>
+  </div>
+
+  <section class="grid">
+
+    <article class="card" data-type="bags">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 270">
+          <path d="M65 84Q150-35 235 84" fill="none" stroke="#ddd" stroke-width="7" stroke-linecap="round"/>
+          <rect x="54" y="70" width="192" height="124" rx="22" fill="#151515" stroke="#444" stroke-width="3"/>
+          <rect x="114" y="109" width="72" height="26" rx="4" fill="#f4f4f4"/>
+          <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#111">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">City Shoulder Bag (black)</div><div class="price">¥8,800</div></div>
+    </article>
+
+    <article class="card" data-type="bags">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 270">
+          <path d="M65 84Q150-35 235 84" fill="none" stroke="#536170" stroke-width="7" stroke-linecap="round"/>
+          <rect x="54" y="70" width="192" height="124" rx="22" fill="#172738" stroke="#43505d" stroke-width="3"/>
+          <rect x="114" y="109" width="72" height="26" rx="4" fill="#ddd"/>
+          <text x="150" y="126" text-anchor="middle" font-size="10" font-weight="900" fill="#172738">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">City Shoulder Bag (navy)</div><div class="price">¥8,800</div></div>
+    </article>
+
+    <article class="card" data-type="bottoms">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 270">
+          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#171717" stroke="#555" stroke-width="3"/>
+          <path d="M69 65Q150 83 231 65" fill="none" stroke="#aaa" stroke-width="3"/>
+          <text x="192" y="170" font-size="8" fill="#ddd">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Nylon City Shorts (black)</div><div class="price">¥12,100</div></div>
+    </article>
+
+    <article class="card" data-type="bottoms">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 270">
+          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#c9ff24" stroke="#dfff75" stroke-width="3"/>
+          <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
+          <text x="192" y="170" font-size="8" fill="#111">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Nylon City Shorts (light green)</div><div class="price">¥12,100 <span class="sold">SOLD OUT</span></div></div>
+    </article>
+
+    <article class="card" data-type="bottoms">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 270">
+          <path d="M53 62Q150 79 247 62L221 199 157 179 150 133 143 179 79 199Z" fill="#079b8f" stroke="#24c5b8" stroke-width="3"/>
+          <path d="M69 65Q150 83 231 65" fill="none" stroke="#111" stroke-width="3"/>
+          <text x="192" y="170" font-size="8" fill="#eaffff">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Nylon City Shorts (turquoise)</div><div class="price">¥12,100</div></div>
+    </article>
+
+    <article class="card" data-type="tops">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 300">
+          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#242424" stroke="#555" stroke-width="3"/>
+          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ffd22f">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Tee - PICK UP PLAYGROUND- (black/yellow)</div><div class="price">¥7,700</div></div>
+    </article>
+
+    <article class="card" data-type="tops">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 300">
+          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#3159d5" stroke="#6684ee" stroke-width="3"/>
+          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#ff7a22">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Tee -PICK UP PLAYGROUND- (royal blue/orange)</div><div class="price">¥7,700</div></div>
+    </article>
+
+    <article class="card" data-type="tops">
+      <div class="photo">
+        <svg class="product" viewBox="0 0 300 300">
+          <path d="M81 57 124 41Q150 56 176 41l43 16 35 52-46 24-11-38v158H103V95l-11 38-46-24Z" fill="#f4f4f4" stroke="#aaa" stroke-width="3"/>
+          <text x="150" y="143" text-anchor="middle" font-size="21" font-weight="900" font-style="italic" fill="#151515">VELN</text>
+        </svg>
+        <span class="detail">DETAIL →</span><button class="add-cart" type="button">ADD TO CART</button>
+      </div>
+      <div class="info"><div class="name">Logo Tee -PICK UP PLAYGROUND- (white)</div><div class="price">¥7,700</div></div>
+    </article>
+
+  </section>
+
+  <footer><span>VELN</span><span>© 2026</span></footer>
+</main>
+</div>
+
+<script>
+const buttons=document.querySelectorAll('.filterbar button');
+const cards=document.querySelectorAll('.card');
+
+buttons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const cat=btn.dataset.category;
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    cards.forEach(card=>{
+      card.style.display=(cat==='all'||card.dataset.type===cat)?'block':'none';
+    });
+  });
+});
+</script>
+
+<!-- CART -->
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <strong>SHOPPING BAG</strong>
+    <button class="close-cart" id="closeCart">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your shopping bag is empty.</div>
+  </div>
+  <div class="cart-total">
+    <div class="cart-total-row"><span>TOTAL</span><strong id="cartTotal">¥0</strong></div>
+    <button class="checkout" id="checkoutBtn">CHECKOUT</button>
+  </div>
+</aside>
+
+<!-- CONTACT -->
+<div class="contact-modal" id="contactModal">
+  <div class="contact-box">
+    <h2>CONTACT</h2>
+    <label>NAME</label>
+    <input id="contactName" type="text" placeholder="お名前">
+    <label>EMAIL</label>
+    <input id="contactEmail" type="email" placeholder="メールアドレス">
+    <label>MESSAGE</label>
+    <textarea id="contactMessage" placeholder="お問い合わせ内容"></textarea>
+    <div class="contact-actions">
+      <button id="closeContact">CLOSE</button>
+      <button class="send" id="sendContact">SEND</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const cartPanel = document.getElementById('cartPanel');
+const cartItems = document.getElementById('cartItems');
+const cartCount = document.getElementById('cartCount');
+const sideCartCount = document.getElementById('sideCartCount');
+const cartTotal = document.getElementById('cartTotal');
+let cart = [];
+
+function yen(n){ return '¥' + n.toLocaleString('ja-JP'); }
+
+function renderCart(){
+  cartCount.textContent = '(' + cart.length + ')';
+  sideCartCount.textContent = '(' + cart.length + ')';
+
+  if(!cart.length){
+    cartItems.innerHTML = '<div class="cart-empty">Your shopping bag is empty.</div>';
+    cartTotal.textContent = '¥0';
+    return;
+  }
+
+  cartItems.innerHTML = cart.map((item,i)=>`
+    <div style="display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid #181818;font-size:10px">
+      <span>${item.name}</span>
+      <span>${yen(item.price)} <button onclick="removeCart(${i})" style="background:none;border:0;color:#777;cursor:pointer">×</button></span>
+    </div>
+  `).join('');
+
+  cartTotal.textContent = yen(cart.reduce((sum,item)=>sum+item.price,0));
+}
+
+function removeCart(i){
+  cart.splice(i,1);
+  renderCart();
+}
+
+function openCart(){
+  cartPanel.classList.add('open');
+}
+function closeCart(){
+  cartPanel.classList.remove('open');
+}
+
+function showToast(text){
+  const t=document.getElementById('toast');
+  t.textContent=text;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+document.getElementById('cartBtn').onclick=openCart;
+document.getElementById('sideCartLink').onclick=e=>{e.preventDefault();openCart()};
+document.getElementById('closeCart').onclick=closeCart;
+
+document.querySelectorAll('.add-cart').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const card=btn.closest('.card');
+    const name=card.querySelector('.name').textContent.trim();
+    const priceText=card.querySelector('.price').textContent.replace(/SOLD OUT/g,'').replace(/[¥,]/g,'').trim();
+    const price=parseInt(priceText,10)||0;
+    if(card.querySelector('.sold')){
+      showToast('この商品はSOLD OUTです');
+      return;
+    }
+    cart.push({name,price});
+    renderCart();
+    showToast('カートに追加しました');
+  });
+});
+
+document.getElementById('checkoutBtn').onclick=()=>{
+  if(!cart.length){showToast('カートが空です');return;}
+  showToast('チェックアウト画面をここに接続できます');
+};
+
+const contactModal=document.getElementById('contactModal');
+document.getElementById('contactLink').onclick=e=>{
+  e.preventDefault();
+  contactModal.classList.add('open');
+};
+document.getElementById('closeContact').onclick=()=>contactModal.classList.remove('open');
+contactModal.addEventListener('click',e=>{
+  if(e.target===contactModal) contactModal.classList.remove('open');
+});
+document.getElementById('sendContact').onclick=()=>{
+  const name=document.getElementById('contactName').value.trim();
+  const email=document.getElementById('contactEmail').value.trim();
+  const message=document.getElementById('contactMessage').value.trim();
+  if(!name || !email || !message){
+    showToast('すべて入力してください');
+    return;
+  }
+  contactModal.classList.remove('open');
+  showToast('お問い合わせを受け付けました');
+};
+</script>
+
+</body>
+</html>
